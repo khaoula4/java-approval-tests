@@ -13,13 +13,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 public class ReceiptRestControllerIT {
 
-
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void shouldReturnApprovedReceiptTextFromApi() throws Exception {
-        String actualResponseBody = mockMvc.perform(get("/api/receipts/1001"))
+        final String actualResponseBody = mockMvc.perform(get("/api/receipts/1001"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
