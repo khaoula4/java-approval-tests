@@ -1,8 +1,8 @@
 package com.example.approval;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class ReceiptService {
@@ -10,7 +10,7 @@ public class ReceiptService {
     private final ReceiptRepository receiptRepository;
     private final ReceiptFormatter receiptFormatter;
 
-    public ReceiptService(ReceiptRepository receiptRepository) {
+    public ReceiptService(final ReceiptRepository receiptRepository) {
         this.receiptRepository = receiptRepository;
         this.receiptFormatter = new ReceiptFormatter();
     }
@@ -18,8 +18,8 @@ public class ReceiptService {
     /**
      * Retrieves receipt items for an order and formats them as text
      */
-    public String generateReceiptText(String orderId) {
-        List<ReceiptItem> receiptItems = receiptRepository.findReceiptItemsByOrderId(orderId);
-        return receiptFormatter.formatReceipt(receiptItems,orderId);
+    public String generateReceiptText(final String orderId) {
+        final List<ReceiptItem> receiptItems = receiptRepository.findReceiptItemsByOrderId(orderId);
+        return receiptFormatter.formatReceipt(receiptItems, orderId);
     }
 }
