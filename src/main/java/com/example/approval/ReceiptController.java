@@ -12,7 +12,7 @@ public class ReceiptController {
 
     private final ReceiptService receiptService;
 
-    public ReceiptController(ReceiptService receiptService) {
+    public ReceiptController(final ReceiptService receiptService) {
         this.receiptService = receiptService;
     }
 
@@ -20,7 +20,7 @@ public class ReceiptController {
      * Returns the formatted text receipt for a given order ID.
      */
     @GetMapping(value = "/api/receipts/{orderId}", produces = "text/plain; charset=UTF-8")
-    public String getReceiptByOrderId(@PathVariable String orderId) {
+    public String getReceiptByOrderId(@PathVariable final String orderId) {
         return receiptService.generateReceiptText(orderId);
     }
 }

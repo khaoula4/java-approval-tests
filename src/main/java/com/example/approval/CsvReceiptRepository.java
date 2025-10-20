@@ -1,7 +1,5 @@
 package com.example.approval;
 
-import org.springframework.stereotype.Repository;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.stereotype.Repository;
 
 /**
  * Loads receipt items from a CSV file located in the classpath: /orders/{orderId}.csv
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class CsvReceiptRepository implements ReceiptRepository {
 
     @Override
-    public List<ReceiptItem> findReceiptItemsByOrderId(String orderId) {
+    public List<ReceiptItem> findReceiptItemsByOrderId(final String orderId) {
         final String csvPath = "/orders/" + orderId + ".csv";
         final InputStream csvStream = getClass().getResourceAsStream(csvPath);
 
@@ -26,9 +26,9 @@ public class CsvReceiptRepository implements ReceiptRepository {
             throw new IllegalArgumentException("CSV resource not found: " + csvPath);
         }
 
-        List<ReceiptItem> parsedItems = new ArrayList<>();
+        final List<ReceiptItem> parsedItems = new ArrayList<>();
 
-        try (BufferedReader csvReader = new BufferedReader(new InputStreamReader(csvStream, StandardCharsets.UTF_8))) {
+        try (final BufferedReader csvReader = new BufferedReader(new InputStreamReader(csvStream, StandardCharsets.UTF_8))) {
             String currentLine;
             boolean isFirstLine = true;
 
@@ -38,17 +38,19 @@ public class CsvReceiptRepository implements ReceiptRepository {
                     continue;
                 }
 
-                String[] csvColumns = currentLine.split(",", -1);
-                if (csvColumns.length < 3) continue;
+                final String[] csvColumns = currentLine.split(",", -1);
+                if (csvColumns.length < 3) {
+                    continue;
+                }
 
-                String productName = csvColumns[0].trim();
-                int quantity = Integer.parseInt(csvColumns[1].trim());
-                double unitPrice = Double.parseDouble(csvColumns[2].trim());
+                final String productName = csvColumns[0].trim();
+                final int quantity = Integer.parseInt(csvColumns[1].trim());
+                final double unitPrice = Double.parseDouble(csvColumns[2].trim());
 
                 parsedItems.add(new ReceiptItem(productName, quantity, unitPrice));
             }
 
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             throw new RuntimeException("Failed to read CSV for order " + orderId, exception);
         }
 
